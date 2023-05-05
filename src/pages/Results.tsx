@@ -19,7 +19,7 @@ const ResultsContainer = styled.div`
 `;
 
 
-export default function Results(){
+export default function Results() {
   // Obtiene la lista de aniales
   const animals = useSelector((store: AppStore) => store.animals);
 

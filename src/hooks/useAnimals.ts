@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { searchAnimals } from "../services/animals";
-import { Animal } from '../models/animal';
+import { Animal } from "../models/animal";
 
 interface Props {
   search: string;
@@ -9,7 +9,6 @@ interface Props {
 export const useAnimals = ({ search }: Props) => {
   const [animals, setAnimals] = useState<Animal[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
-  
 
   const [, setError] = useState(null);
   const previousSearch = useRef(search);
@@ -33,7 +32,7 @@ export const useAnimals = ({ search }: Props) => {
   }, []);
 
   return { animals: animals, getAnimals, loading };
-}
+};
 
 export const useSearch = () => {
   const [search, updateSearch] = useState("");

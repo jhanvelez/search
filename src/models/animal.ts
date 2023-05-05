@@ -1,4 +1,3 @@
-// interfas para manejar el objeto local
 export interface Animal {
   uuid: number;
   name: string;

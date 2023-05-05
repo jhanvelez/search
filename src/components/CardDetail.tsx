@@ -40,13 +40,13 @@ interface Props {
 }
 
 export default function CardDetail({ children }: Props) {
-  return(
+  return (
     <CardDetalleContainer>
       <CardDetailImage
         src=" https://cdn.pixabay.com/photo/2017/06/02/19/12/broken-link-2367103_1280.png"
         alt="imagen no encontrada" />
-      <CardDetailSpan>asd</CardDetailSpan>
-      <CardDetailText>asd</CardDetailText>
+      <CardDetailSpan>{children}</CardDetailSpan>
+      <CardDetailText>{children}</CardDetailText>
     </CardDetalleContainer>
   )
 }
