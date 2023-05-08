@@ -9,13 +9,16 @@ import { setAnimals } from '../app/states/animal';
 import { useAnimals, useSearch } from '../hooks/useAnimals';
 
 const SearchContainer = styled.div`
-  width: 50%;
+  width: 30%;
   display: flex;
   align-items: center;
   background-color: #fff;
-  padding: 1dvh 2dvh;
+  padding: 2dvh;
   border-radius: 30px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -92,7 +95,7 @@ export default function SearchBar({ children, styles }: Props) {
       updateSearch(q)
       debouncedGetMovies(q)
     }
-  }, [debouncedGetMovies, inputValues, search, updateSearch])
+  }, [updateSearch])
 
   useEffect(() => {
     dispatch(setAnimals(animals))

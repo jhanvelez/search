@@ -8,6 +8,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   background-color: #F8F9F9;
   border-bottom: 1px #D7DBDD solid;
+  padding: 10px 0;
 `;
 
 const HeaderContainerIcon = styled.div`

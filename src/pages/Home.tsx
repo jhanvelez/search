@@ -60,7 +60,7 @@ export default function Home() {
         <SearchBar styles={{
           width: `30%`,
           margin: 'auto',
-          padding: `1.5dvh`
+          padding: `1dvh 2dvh`
         }}>
           <HomeContainerButton type='submit'>Buscar</HomeContainerButton>
         </SearchBar>
