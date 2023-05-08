@@ -72,20 +72,9 @@ export default function SearchBar({ children, styles }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  
 
   const { search, updateSearch } = useSearch();
   const { animals, getAnimals } = useAnimals({ search });
-
-  const [inputValues, setInputValues] = useState( () => {
-    const searchQuery = queryParams.get("q");
-
-    if (searchQuery) {
-      return { q: searchQuery }
-    }
-
-    return { q: "" }
-  });
 
   const debouncedGetAnimals = useMemo(
     () =>
@@ -95,17 +84,23 @@ export default function SearchBar({ children, styles }: Props) {
     [getAnimals]
   );
 
-  useEffect(() => {
-    debouncedGetAnimals(inputValues.q);
-  }, [inputValues.q, debouncedGetAnimals]);
+  const [inputValues, setInputValues] = useState( () => {
+    const searchQuery = queryParams.get("q");
+
+    if (searchQuery) {
+      updateSearch(searchQuery);
+      debouncedGetAnimals(searchQuery);
+      return { q: searchQuery }
+    }
+
+    return { q: "" }
+  });
 
   useEffect(() => {
     dispatch(setAnimals(animals));
   }, [animals, dispatch]);
 
   const handleSubmit = () => {
-    updateSearch(inputValues.q);
-    debouncedGetAnimals(inputValues.q);
     navigate("/search?q=" + inputValues.q);
   };
 
