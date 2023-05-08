@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import debounce from 'just-debounce-it';
 import { useDispatch } from 'react-redux';
@@ -65,6 +65,7 @@ export default function SearchBar({ children, styles }: Props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  
   const { search, updateSearch } = useSearch();
   const { animals, getAnimals } = useAnimals({ search })
 
@@ -72,7 +73,9 @@ export default function SearchBar({ children, styles }: Props) {
     q: ''
   });
 
-  const debouncedGetMovies = useCallback( (search: string) => debounce((search: string) => () => getAnimals({ search })), [getAnimals] );
+  //const debouncedGetMovies = useCallback( (search: string) => debounce((search: string) => () => getAnimals({ search })), [getAnimals] );
+
+  const debouncedGetMovies = useMemo( () => debounce((search: string) => { getAnimals({ search }) }, 300), [getAnimals] )
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -89,11 +92,11 @@ export default function SearchBar({ children, styles }: Props) {
       updateSearch(q)
       debouncedGetMovies(q)
     }
-  }, [])
+  }, [debouncedGetMovies, inputValues, search, updateSearch])
 
   useEffect(() => {
     dispatch(setAnimals(animals))
-  }, [animals]);
+  }, [animals, dispatch]);
 
   const handleSubmit = () => {
     updateSearch(inputValues.q)

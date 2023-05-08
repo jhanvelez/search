@@ -34,6 +34,8 @@ const Title = styled.h3`
   width: max-content;
   margin-top: 0;
   color: #2215ad;
+  font-weight: 700;
+  font-size: 1rem;
 
   &:hover {
     cursor: pointer;
@@ -44,6 +46,8 @@ const Description = styled.p`
   margin-bottom: 5px;
   font-size: smaller;
   margin-top: 0;
+  font-weight: 400;
+  font-size: 1rem;
 `;
 
 const ContenerLoading = styled.div`
