@@ -3,7 +3,7 @@ import styled from "styled-components";
 import debounce from "just-debounce-it";
 import { useDispatch } from "react-redux";
 import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { setAnimals } from "../app/states/animal";
 import { useAnimals, useSearch } from "../hooks/useAnimals";
@@ -70,17 +70,24 @@ interface Props {
 export default function SearchBar({ children, styles }: Props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  
 
   const { search, updateSearch } = useSearch();
   const { animals, getAnimals } = useAnimals({ search });
 
-  const [inputValues, setInputValues] = useState({
-    q: "",
+  const [inputValues, setInputValues] = useState( () => {
+    const searchQuery = queryParams.get("q");
+
+    if (searchQuery) {
+      return { q: searchQuery }
+    }
+
+    return { q: "" }
   });
 
-  //const debouncedGetMovies = useCallback( (search: string) => debounce((search: string) => () => getAnimals({ search })), [getAnimals] );
-
-  const debouncedGetMovies = useMemo(
+  const debouncedGetAnimals = useMemo(
     () =>
       debounce((search: string) => {
         getAnimals({ search });
@@ -89,21 +96,8 @@ export default function SearchBar({ children, styles }: Props) {
   );
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const q = String(searchParams.get("q"));
-
-    if (searchParams.get("q") != null) {
-      setInputValues({
-        ...inputValues,
-        q: q,
-      });
-    }
-
-    if (q && !search) {
-      updateSearch(q);
-      debouncedGetMovies(q);
-    }
-  }, [updateSearch]);
+    debouncedGetAnimals(inputValues.q);
+  }, [inputValues.q, debouncedGetAnimals]);
 
   useEffect(() => {
     dispatch(setAnimals(animals));
@@ -111,7 +105,7 @@ export default function SearchBar({ children, styles }: Props) {
 
   const handleSubmit = () => {
     updateSearch(inputValues.q);
-    debouncedGetMovies(inputValues.q);
+    debouncedGetAnimals(inputValues.q);
     navigate("/search?q=" + inputValues.q);
   };
 
