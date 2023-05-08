@@ -66,18 +66,13 @@ export default function SearchBar({ children, styles }: Props) {
   const navigate = useNavigate();
 
   const { search, updateSearch } = useSearch();
-  const { animals, getAnimals, loading } = useAnimals({ search })
+  const { animals, getAnimals } = useAnimals({ search })
 
   const [inputValues, setInputValues] = useState({
     q: ''
   });
 
-  const debouncedGetMovies = useCallback(
-    debounce((search: string) => {
-      getAnimals({ search })
-    }, 300)
-    , [getAnimals]
-  )
+  const debouncedGetMovies = useCallback( (search: string) => debounce((search: string) => () => getAnimals({ search })), [getAnimals] );
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

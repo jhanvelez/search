@@ -1,7 +1,4 @@
-import { useSelector } from 'react-redux'
 import styled from 'styled-components';
-
-import { AppStore } from '../app/store'
 
 const CardDetalleContainer = styled.div`
   border: 2px;
@@ -44,7 +41,7 @@ export default function CardDetail({ children }: Props) {
     <CardDetalleContainer>
       <CardDetailImage
         src=" https://cdn.pixabay.com/photo/2017/06/02/19/12/broken-link-2367103_1280.png"
-        alt="imagen no encontrada" />
+        alt="Imagen no encontrada" />
       <CardDetailSpan>{children}</CardDetailSpan>
       <CardDetailText>{children}</CardDetailText>
     </CardDetalleContainer>

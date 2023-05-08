@@ -15,11 +15,11 @@ const HomeText = styled.p`
   margin: 0 1dvh;
 `;
 
-const HomeContainerSearchbar = styled.div`
+const HomeContainerSearch = styled.div`
   padding: 0 1dvh;
   margin: 0 1dvh;
   text-align: center;
-  margin-top: 15%;
+  margin-top: 10%;
 `;
 
 const HomeContainerButton = styled.button`
@@ -31,7 +31,7 @@ const HomeContainerButton = styled.button`
   padding: 15px 10px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  width: 10%;
+  width: 8%;
   margin: auto;
   margin-top: 10px;
 
@@ -51,21 +51,21 @@ export default function Home() {
         </HomeText>
       </Header>
 
-      <HomeContainerSearchbar>
+      <HomeContainerSearch>
         <Logo styles={{
-          width: `30%`,
+          width: `20%`,
           margin: 'auto'
         }} />
 
         <SearchBar styles={{
-          width: `50%`,
+          width: `30%`,
           margin: 'auto',
           padding: `1.5dvh`
         }}>
-          <HomeContainerButton >Buscar</HomeContainerButton>
+          <HomeContainerButton type='submit'>Buscar</HomeContainerButton>
         </SearchBar>
 
-      </HomeContainerSearchbar>
+      </HomeContainerSearch>
 
       <Footer />
     </HomeContainer>
