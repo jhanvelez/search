@@ -32,8 +32,8 @@ export default function Results() {
       <Header>
         <ContainerHeaderDiv>
           <Logo styles={{
-            width: `7%`,
-            margin: `0 3% 0 0`
+            width: `8%`,
+            margin: `.5% 3% 0 0`
           }} />
           <SearchBar styles={{
             boxShadow: `rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px`

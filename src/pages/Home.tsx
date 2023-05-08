@@ -13,6 +13,7 @@ const HomeContainer = styled.main`
 const HomeText = styled.p`
   padding: 0 1dvh;
   margin: 0 1dvh;
+  font-size: smaller;
 `;
 
 const HomeContainerSearch = styled.div`

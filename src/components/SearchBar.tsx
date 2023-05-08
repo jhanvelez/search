@@ -1,23 +1,26 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import styled from 'styled-components';
-import debounce from 'just-debounce-it';
-import { useDispatch } from 'react-redux';
-import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from "react";
+import styled from "styled-components";
+import debounce from "just-debounce-it";
+import { useDispatch } from "react-redux";
+import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
-import { setAnimals } from '../app/states/animal';
-import { useAnimals, useSearch } from '../hooks/useAnimals';
+import { setAnimals } from "../app/states/animal";
+import { useAnimals, useSearch } from "../hooks/useAnimals";
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   width: 30%;
   display: flex;
   align-items: center;
   background-color: #fff;
-  padding: 2dvh;
+  padding: 1dvh;
   border-radius: 30px;
-  
+  height: 50%;
+  margin: auto 0;
+
   &:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   }
 `;
 
@@ -60,73 +63,78 @@ const SearchButton = styled.button`
 `;
 
 interface Props {
-  children: React.ReactNode
-  styles: {}
+  children: React.ReactNode;
+  styles: {};
 }
 
 export default function SearchBar({ children, styles }: Props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
   const { search, updateSearch } = useSearch();
-  const { animals, getAnimals } = useAnimals({ search })
+  const { animals, getAnimals } = useAnimals({ search });
 
   const [inputValues, setInputValues] = useState({
-    q: ''
+    q: "",
   });
 
   //const debouncedGetMovies = useCallback( (search: string) => debounce((search: string) => () => getAnimals({ search })), [getAnimals] );
 
-  const debouncedGetMovies = useMemo( () => debounce((search: string) => { getAnimals({ search }) }, 300), [getAnimals] )
+  const debouncedGetMovies = useMemo(
+    () =>
+      debounce((search: string) => {
+        getAnimals({ search });
+      }, 300),
+    [getAnimals]
+  );
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const q = String(searchParams.get('q'));
+    const q = String(searchParams.get("q"));
 
-    if (searchParams.get('q') != null) {
+    if (searchParams.get("q") != null) {
       setInputValues({
         ...inputValues,
-        q: q
-      })
+        q: q,
+      });
     }
 
     if (q && !search) {
-      updateSearch(q)
-      debouncedGetMovies(q)
+      updateSearch(q);
+      debouncedGetMovies(q);
     }
-  }, [updateSearch])
+  }, [updateSearch]);
 
   useEffect(() => {
-    dispatch(setAnimals(animals))
+    dispatch(setAnimals(animals));
   }, [animals, dispatch]);
 
   const handleSubmit = () => {
-    updateSearch(inputValues.q)
-    debouncedGetMovies(inputValues.q)
-    navigate('/search?q=' + inputValues.q)
-  }
+    updateSearch(inputValues.q);
+    debouncedGetMovies(inputValues.q);
+    navigate("/search?q=" + inputValues.q);
+  };
 
   const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
-    if (evt.key === 'Enter') {
-      dispatch(setAnimals([]))
-      handleSubmit()
+    if (evt.key === "Enter") {
+      dispatch(setAnimals([]));
+      handleSubmit();
     }
-  }
+  };
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValues({
       ...inputValues,
-      [evt.target.name]: evt.target.value
-    })
-  }
+      [evt.target.name]: evt.target.value,
+    });
+  };
 
   const handleClearClick = () => {
     setInputValues({
       ...inputValues,
-      q: ''
-    })
-  }
+      q: "",
+    });
+  };
 
   return (
     <>
@@ -139,7 +147,8 @@ export default function SearchBar({ children, styles }: Props) {
           onKeyDown={handleKeyDown}
           value={inputValues.q}
           onChange={handleChange}
-          name='q' />
+          name="q"
+        />
         {inputValues.q && (
           <ClearButton onClick={handleClearClick}>
             <AiOutlineClose />
@@ -148,5 +157,5 @@ export default function SearchBar({ children, styles }: Props) {
       </SearchContainer>
       {children}
     </>
-  )
+  );
 }
