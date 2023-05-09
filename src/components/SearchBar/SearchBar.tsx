@@ -1,66 +1,18 @@
 import React, { useState, useMemo, useEffect } from "react";
-import styled from "styled-components";
 import debounce from "just-debounce-it";
 import { useDispatch } from "react-redux";
 import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { setAnimals } from "../app/states/animal";
-import { useAnimals, useSearch } from "../hooks/useAnimals";
+import { setAnimals } from "../../app/states/animal";
+import { useAnimals, useSearch } from "../../hooks/useAnimals";
 
-const SearchContainer = styled.form`
-  width: 30%;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  padding: 1dvh;
-  border-radius: 30px;
-  height: 50%;
-  margin: auto 0;
-
-  &:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  }
-`;
-
-const SearchInput = styled.input`
-  flex: 1;
-  border: none;
-  padding: 0;
-  margin-right: 8px;
-  font-size: 16px;
-  margin-left: 10px;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const ClearButton = styled.button`
-  background-color: transparent;
-  border: none;
-  font-size: 16px;
-  color: #ccc;
-  cursor: pointer;
-
-  &:hover {
-    color: #000;
-  }
-`;
-
-const SearchButton = styled.button`
-  background-color: transparent;
-  border: none;
-  font-size: 20px;
-  color: #ccc;
-  cursor: pointer;
-  margin: auto;
-
-  &:hover {
-    color: #000;
-  }
-`;
+import {
+  ClearButton,
+  SearchContainer,
+  SearchButton,
+  SearchInput,
+} from "./styles";
 
 interface Props {
   children: React.ReactNode;
@@ -84,16 +36,16 @@ export default function SearchBar({ children, styles }: Props) {
     [getAnimals]
   );
 
-  const [inputValues, setInputValues] = useState( () => {
+  const [inputValues, setInputValues] = useState(() => {
     const searchQuery = queryParams.get("q");
 
     if (searchQuery) {
       updateSearch(searchQuery);
       debouncedGetAnimals(searchQuery);
-      return { q: searchQuery }
+      return { q: searchQuery };
     }
 
-    return { q: "" }
+    return { q: "" };
   });
 
   useEffect(() => {
